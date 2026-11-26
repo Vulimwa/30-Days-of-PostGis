@@ -41,3 +41,12 @@ JOIN nyc_streets AS ac
   ON ST_DWithin(s.geom, ac.geom, 0.1)
 WHERE ac.name = 'Atlantic Commons'
   AND s.gid <> ac.gid;
+ -- Approximately how many people live on (within 50 meters of) Atlantic Commons?
+SELECT 
+	SUM(popn_total)
+FROM nyc_census_blocks
+WHERE ST_DWithin(
+   geom,
+   ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918),
+   50
+  );
